@@ -1,7 +1,6 @@
 
 // get the post and show it in the page
 let cardPosts = document.getElementById("posts");
-
 function getPosts(){
     axios.get("https://tarmeezacademy.com/api/v1/posts")
     .then((res) => {
@@ -41,6 +40,7 @@ function getPosts(){
 }
 getPosts();
 
+// login function
 function login(){
     const inputName = document.getElementById("name").value;
     const inputPassword = document.getElementById("password").value;
@@ -50,7 +50,6 @@ function login(){
     }
     axios.post("https://tarmeezacademy.com/api/v1/login", params)
     .then((res) => {
-        console.log(res.data);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
         // The modal
@@ -58,6 +57,23 @@ function login(){
         let modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
         setupUi();
+    showAlertMessage('Nice, you are logged in successfuly');
+    })
+}
+
+// register function
+function register(){
+    const name = document.getElementById("input-name").value;
+    const email = document.getElementById("input-email").value;
+    const password = document.getElementById("input-password").value;
+    let params = {
+        "username": name,
+        "name": email,
+        "email": password
+    }
+    axios.post("https://tarmeezacademy.com/api/v1/register", params)
+    .then((res) => {
+        console.log(res.data);
     })
 }
 
@@ -66,6 +82,7 @@ function logout(){
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setupUi();
+    showAlertMessage('Nice, you are logged out successfuly');
 }
 
 // Show and hide the buttons of Login and Logout
@@ -87,36 +104,18 @@ function setupUi(){
 }
 setupUi();
 
-
-
-
-
-
-
-
-
-
-
-
-// show alert when u login
-// function showSuccessAlert(){
-//     const successAlert = document.getElementById('success-alert');
-//     const appendAlert = (message, type) => {
-//     const wrapper = document.createElement('div')
-//     wrapper.innerHTML = [
-//         `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-//         `   <div>${message}</div>`,
-//         '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-//         '</div>'
-//     ].join('')
-
-//     successAlert.append(wrapper)
-//     }
-
-//     const alertTrigger = document.getElementById('liveAlertBtn')
-//     if (alertTrigger) {
-//     alertTrigger.addEventListener('click', () => {
-//         appendAlert('Nice, you triggered this alert message!', 'success')
-//     })
-//     }
-// }
+// Show Alert message when u login
+function showAlertMessage(customMessage){
+    const AlertMessage = document.getElementById('AlertMessage')
+    const alert = (message, type) => {
+    const wrapper = document.createElement('div')
+    wrapper.innerHTML = [
+        `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+        `   <div>${message}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>'
+    ].join('')
+    AlertMessage.append(wrapper)
+    }
+    alert(customMessage, 'success');
+}

@@ -6,3 +6,10 @@ body{
     padding: 20px;
     font-size: 20px;
 }
+#AlertMessage{
+    position: fixed;
+     bottom: 0;
+     right: 8px;
+     width: 20%;
+     z-index: 99;
+}

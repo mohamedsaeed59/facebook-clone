@@ -35,8 +35,39 @@
       </div>
     </div>
   </div>
-  <!-- success Alert -->  
-  <!-- <div id="success-alert"></div> -->
+  <!--build modal when u make register-->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Register</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Username:</label>
+              <input type="text" class="form-control" id="input-name">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Email:</label>
+              <input type="email" class="form-control" id="input-email">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Password:</label>
+              <input type="password" class="form-control" id="input-password">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="register()">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Alert message when you make login -->  
+  <div id="AlertMessage"></div>
   <!-- Nav bar -->  
   <nav class="navbar navbar-expand-lg bg-body-tertiary shadow rounded">
       <div class="container-fluid">
@@ -51,7 +82,7 @@
           </div>
           <div class="d-flex w-100 justify-content-end"  id="login-btn">
               <button type="button" class="btn btn-outline-primary mx-3" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-              <button type="button" class="btn btn-outline-primary">Register</button>
+              <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
           </div>
           <div class="d-flex w-100 justify-content-end" id="logout-btn">
             <button type="button" class="btn btn-outline-danger" onclick="logout()">Logout</button>

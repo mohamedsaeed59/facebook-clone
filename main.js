@@ -57,23 +57,34 @@ function login(){
         let modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
         setupUi();
-    showAlertMessage('Nice, you are logged in successfuly');
+        showAlertMessage('Nice, you are logged in successfuly', 'success');
     })
 }
 
 // register function
 function register(){
-    const name = document.getElementById("input-name").value;
-    const email = document.getElementById("input-email").value;
-    const password = document.getElementById("input-password").value;
+    const name = document.getElementById("reg-input-name").value;
+    const userName = document.getElementById("reg-input-username").value;
+    const password = document.getElementById("reg-input-password").value;
     let params = {
-        "username": name,
-        "name": email,
-        "email": password
+        "name": name,
+        "username": userName,
+        "password": password
     }
     axios.post("https://tarmeezacademy.com/api/v1/register", params)
     .then((res) => {
-        console.log(res.data);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+          // The modal
+          let regModal = document.getElementById("registerModal");
+          let modalInstance = bootstrap.Modal.getInstance(regModal);
+          modalInstance.hide();
+          setupUi();
+          showAlertMessage('Nice, you are registered successfully');
+    })
+    .catch((err) => {
+        let error = err.response.data.message;
+        showAlertMessage(error, 'danger');
     })
 }
 
@@ -82,7 +93,7 @@ function logout(){
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setupUi();
-    showAlertMessage('Nice, you are logged out successfuly');
+    showAlertMessage('Nice, you are logged out successfuly', 'success');
 }
 
 // Show and hide the buttons of Login and Logout
@@ -105,7 +116,7 @@ function setupUi(){
 setupUi();
 
 // Show Alert message when u login
-function showAlertMessage(customMessage){
+function showAlertMessage(customMessage, typeMessage){
     const AlertMessage = document.getElementById('AlertMessage')
     const alert = (message, type) => {
     const wrapper = document.createElement('div')
@@ -117,5 +128,5 @@ function showAlertMessage(customMessage){
     ].join('')
     AlertMessage.append(wrapper)
     }
-    alert(customMessage, 'success');
+    alert(customMessage, typeMessage);
 }

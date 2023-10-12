@@ -80,7 +80,7 @@ function register(){
           let modalInstance = bootstrap.Modal.getInstance(regModal);
           modalInstance.hide();
           setupUi();
-          showAlertMessage('Nice, you are registered successfully');
+          showAlertMessage('Nice, you are registered successfully', 'success');
     })
     .catch((err) => {
         let error = err.response.data.message;
@@ -156,5 +156,11 @@ function createNewPost(){
         let modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
         setupUi();
+        showAlertMessage('Nice, new post has been created', 'success');
+        getPosts();
+    })
+    .catch((err) => {
+        const message = err.response.data.message
+        showAlertMessage(message, 'danger');
     })
 }

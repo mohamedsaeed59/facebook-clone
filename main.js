@@ -53,7 +53,7 @@ function login(){
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
         // The modal
-        let modal = document.querySelector(".modal");
+        let modal = document.getElementById("loginModal");
         let modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
         setupUi();
@@ -101,16 +101,19 @@ function setupUi(){
     // select the element
     let loginDiv = document.getElementById("login-btn");
     let logoutDiv = document.getElementById("logout-btn");
+    let addPostDiv = document.getElementById("add-post-btn");
 
     let token = localStorage.getItem("token");
     // check the token and show the buttons
     if(token == null){
         loginDiv.style.setProperty("display", "flex", "important");
         logoutDiv.style.setProperty("display", "none", "important");
+        addPostDiv.style.setProperty("display", "none", "important");
 
     }else{
         loginDiv.style.setProperty("display", "none", "important");
         logoutDiv.style.setProperty("display", "flex", "important");
+        addPostDiv.style.setProperty("display", "flex", "important");
     }
 }
 setupUi();
@@ -129,4 +132,29 @@ function showAlertMessage(customMessage, typeMessage){
     AlertMessage.append(wrapper)
     }
     alert(customMessage, typeMessage);
+}
+
+// function to create a new post
+function createNewPost(){
+    const titleInput = document.getElementById("title-input").value;
+    const bodyInput = document.getElementById("body-input").value;
+    const imgInput = document.getElementById("img-input").files[0];
+    const token = localStorage.getItem("token");
+
+    let formData = new FormData();
+    formData.append("title", titleInput);
+    formData.append("body", bodyInput);
+    formData.append("image", imgInput);
+    const headers = {
+        "authorization": `Bearer ${token}`
+    }
+    axios.post("https://tarmeezacademy.com/api/v1/posts", formData, {headers:headers})
+    .then((res) => {
+        console.log(res);
+        // The modal
+        let modal = document.getElementById("addPostModal");
+        let modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+        setupUi();
+    })
 }

@@ -66,15 +66,17 @@ function register(){
     const name = document.getElementById("reg-input-name").value;
     const userName = document.getElementById("reg-input-username").value;
     const password = document.getElementById("reg-input-password").value;
-    let params = {
-        "name": name,
-        "username": userName,
-        "password": password
-    }
-    axios.post("https://tarmeezacademy.com/api/v1/register", params)
+    const image = document.getElementById("personal-img-input").files[0];
+    let formData = new FormData();
+    formData.append("name", name)
+    formData.append("username", userName)
+    formData.append("password", password)
+    formData.append("image", image)
+    axios.post("https://tarmeezacademy.com/api/v1/register", formData)
     .then((res) => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
+        console.log(res);
           // The modal
           let regModal = document.getElementById("registerModal");
           let modalInstance = bootstrap.Modal.getInstance(regModal);
@@ -114,6 +116,9 @@ function setupUi(){
         loginDiv.style.setProperty("display", "none", "important");
         logoutDiv.style.setProperty("display", "flex", "important");
         addPostDiv.style.setProperty("display", "flex", "important");
+        let user = getCurrentUser();
+        document.getElementById("nav-username").innerHTML = user.username;
+        document.getElementById("nav-userImg").src = user.profile_image;
     }
 }
 setupUi();
@@ -163,4 +168,14 @@ function createNewPost(){
         const message = err.response.data.message
         showAlertMessage(message, 'danger');
     })
+}
+
+// function get current user
+function getCurrentUser(){
+    let user = null;
+    const storageUser = localStorage.getItem("user");
+    if(storageUser != null){
+        user = JSON.parse(storageUser);
+    }
+    return user;
 }

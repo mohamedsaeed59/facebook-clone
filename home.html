@@ -77,6 +77,10 @@
         <div class="modal-body">
           <form>
             <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Your Photo:</label>
+              <input type="file" class="form-control" id="personal-img-input">
+            </div>
+            <div class="mb-3">
               <label for="recipient-name" class="col-form-label">Name:</label>
               <input type="text" class="form-control" id="reg-input-name">
             </div>
@@ -119,7 +123,9 @@
               <button type="button" class="btn btn-outline-primary mx-3" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
               <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
           </div>
-          <div class="d-flex w-100 justify-content-end" id="logout-btn">
+          <div class="d-flex w-100 justify-content-end align-items-center" id="logout-btn">
+            <img id="nav-userImg" class="rounded-circle" style="width: 40px; height: 40px;" src="" />
+            <span id="nav-username" class="ms-2 me-2"></span>
             <button type="button" class="btn btn-outline-danger" onclick="logout()">Logout</button>
         </div>
         </div>

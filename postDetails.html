@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Post Details</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="style.css" />
 </head>
@@ -103,10 +103,6 @@
   </div>
   <!-- Alert message when you make login -->  
   <div id="AlertMessage"></div>
-  <!-- The button of adding new post -->
-  <div class="bg-primary" id="add-post-btn" data-bs-toggle="modal" data-bs-target="#addPostModal">
-    <span>+</span>
-  </div>
   <!-- Nav bar -->  
   <nav class="navbar navbar-expand-lg bg-body-tertiary shadow rounded">
       <div class="container-fluid">
@@ -131,18 +127,22 @@
         </div>
       </div> 
   </nav> 
-  
-  <!-- The content of the page -->  
+  <!-- the main content-->
   <div class="container">
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="col-lg-9">
+            <h1><span id="user-name-span"></span>'s Post </h1>
+        </div>
+    </div>
+    <!--post-->
     <div class="d-flex justify-content-center mt-5">
-      <div class="col-9">
-        <div id="posts"></div> 
-      </div>  
-    </div>   
-  </div>
-
+        <div class="col-9">
+          <div id="postClicked"></div>  
+      </div>
+    </div>
+  </div>   
 <script src="./node_modules/axios/dist/axios.min.js"></script>
 <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>    
-<script src="main.js"></script>    
+<script src="main.js"></script>  
 </body>
 </html>

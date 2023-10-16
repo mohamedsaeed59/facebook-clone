@@ -16,12 +16,12 @@ function getPosts(){
                     <img src="${post.author.profile_image}" class="rounded-circle border border-3" style="width: 40px; height: 40px;"/>
                     <h3 class="mx-3">${post.author.name}</h3>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="cursor: pointer" onclick="redirect(${post.id})">
                         <img src="${post.image}" style="width: 100%;" />
                         <h6 style="color: grey;" class="mt-1">${post.created_at}</h6>
                         <h5>${postTitle}</h5>
                         <p>${post.body}</p>
-                        <hr>
+                        <hr> 
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16" style="cursor: pointer;">
                                 <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
@@ -39,6 +39,75 @@ function getPosts(){
     })
 }
 getPosts();
+
+// Redirect to the post through the id
+function redirect(postId){
+    window.location = `postDetails.html?postId=${postId}`
+}
+
+// Get the post and show the comments
+let urlParams = new URLSearchParams(window.location.search);
+let id = urlParams.get("postId");
+
+let postClicked = document.getElementById("postClicked");
+let spanUserName = document.getElementById("user-name-span");
+
+function getPost(){
+    axios.get(`https://tarmeezacademy.com/api/v1/posts/${id}`)
+    .then((res) => {
+        let post = res.data.data;
+        let comments = post.comments;
+        spanUserName.innerHTML = post.author.username;
+        
+        let postTitle = "";
+        if(post.title != null){
+            postTitle = post.title;
+        }
+        // the content of the comment
+        let commentsContent = ``
+        for(comment of comments){
+            commentsContent += `
+            <div class="p-3" style="background-color:rgb(235, 235, 235)">
+                <div>
+                    <img src="${comment.author.profile_image}" class="rounded-circle border border-3" style="width: 40px; height: 40px;"/>
+                    <b class="mx-2">${comment.author.username}</b>
+                </div>
+                <div>${comment.body}</div>
+                <hr>
+            </div>
+            `
+        }
+        let contentPost = `
+            <div class="card shadow mb-5">
+                <div class="card-header d-flex">
+                    <img src="${post.author.profile_image}" class="rounded-circle border border-3" style="width: 40px; height: 40px;"/>
+                    <h3 class="mx-3">${post.author.username}</h3>
+                </div>
+               <div class="card-body">
+                    <img src="${post.image}" style="width: 100%;" />
+                    <h6 style="color: grey;" class="mt-1">${post.created_at}</h6>
+                    <h5>${postTitle}</h5>
+                    <p>${post.body}</p>
+                    <hr>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16" style="cursor: pointer;">
+                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                    </svg>
+                    <span>${post.comments_count} Comments</span>
+                    </div>
+                 </div>
+                 <div id="comments">
+                   ${commentsContent}
+                 </div>
+              </div>
+        `
+        postClicked.innerHTML = contentPost;
+    })
+    .catch((err) => {
+        console.log('errrror', err);
+    })
+}
+getPost();
 
 // login function
 function login(){

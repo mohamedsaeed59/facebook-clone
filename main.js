@@ -99,6 +99,10 @@ function getPost(){
                  <div id="comments">
                    ${commentsContent}
                  </div>
+                 <div class="input-group mb-3 mt-3" id="add-comment-div">
+                    <input id="comment-input" type="text" placeholder="Add your comment here.." class="form-control">
+                    <button class="btn btn-outline-primary" type="button" onclick="addComment()">send</button>
+                 </div>
               </div>
         `
         postClicked.innerHTML = contentPost;
@@ -108,6 +112,26 @@ function getPost(){
     })
 }
 getPost();
+
+// Add comment function
+function addComment(){
+    const inputComment = document.getElementById("comment-input").value;
+    let params = {
+        "body": inputComment
+    }
+    let token = localStorage.getItem("token");
+    axios.post(`https://tarmeezacademy.com/api/v1/posts/${id}/comments`, params, {
+        headers: {"authorization": `Bearer ${token}`}
+    })
+    .then((res) => {
+        showAlertMessage("The comment has been created successfully", 'success');
+        getPost();
+    })
+    .catch((err) => {
+        let error = err.response.data.message;
+        showAlertMessage(error, 'danger');
+    })
+}
 
 // login function
 function login(){
